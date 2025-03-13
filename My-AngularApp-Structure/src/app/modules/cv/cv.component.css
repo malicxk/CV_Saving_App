@@ -1,0 +1,19 @@
+.cv-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 100%;
+    margin: auto;
+    padding: 10px;
+}
+
+app-cv-form {
+    flex: 1;
+    max-width: 45%;
+}
+
+app-user-list {
+    flex: 1;
+    max-width: 50%;
+}

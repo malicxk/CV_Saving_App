@@ -1,0 +1,99 @@
+<div class="cv-form-container">
+  <h2>{{ cvId ? 'Edit CV' : 'Create CV' }}</h2>
+
+  <form [formGroup]="cvForm" (ngSubmit)="submitForm()">
+    <!-- Personal Information -->
+    <fieldset>
+      <legend>Personal Information</legend>
+
+      <label for="name">Name:</label>
+      <input id="name" type="text" formControlName="name" required />
+      <div *ngIf="isSubmitted && cvForm.get('name')?.invalid" class="error">
+        <div *ngIf="cvForm.get('name')?.hasError('required')">Name is required.</div>
+      </div>
+
+      <label for="email">Email:</label>
+      <input id="email" type="email" formControlName="email" required />
+      <div *ngIf="isSubmitted && cvForm.get('email')?.invalid" class="error">
+        <div *ngIf="cvForm.get('email')?.hasError('required')">Email is required.</div>
+        <div *ngIf="cvForm.get('email')?.hasError('email')">Please enter a valid email address.</div>
+      </div>
+
+      <label for="phone">Phone:</label>
+      <input id="phone" type="text" formControlName="phone" required />
+      <div *ngIf="isSubmitted && cvForm.get('phone')?.invalid" class="error">
+        <div *ngIf="cvForm.get('phone')?.hasError('required')">Phone number is required.</div>
+      </div>
+
+      <label for="summary">Professional Summary:</label>
+      <textarea id="summary" formControlName="professionalSummary" required></textarea>
+      <div *ngIf="isSubmitted && cvForm.get('professionalSummary')?.invalid" class="error">
+        <div *ngIf="cvForm.get('professionalSummary')?.hasError('required')">Professional summary is required.</div>
+      </div>
+
+      <label for="skills">Skills:</label>
+      <input id="skills" type="text" formControlName="skills" placeholder="Comma-separated skills" />
+    </fieldset>
+
+    <!-- Work Experience Section -->
+    <fieldset>
+      <legend>Work Experience</legend>
+      <div formArrayName="workExperience">
+        <div *ngFor="let exp of workExperience.controls; let i = index" [formGroupName]="i">
+          <label>Company:</label>
+          <input type="text" formControlName="company" required />
+          <div *ngIf="isSubmitted && exp.get('company')?.invalid" class="error">
+            <div *ngIf="exp.get('company')?.hasError('required')">Company is required.</div>
+          </div>
+
+          <label>Position:</label>
+          <input type="text" formControlName="position" required />
+          <div *ngIf="isSubmitted && exp.get('position')?.invalid" class="error">
+            <div *ngIf="exp.get('position')?.hasError('required')">Position is required.</div>
+          </div>
+
+          <label>Duration:</label>
+          <input type="text" formControlName="duration" required />
+          <div *ngIf="isSubmitted && exp.get('duration')?.invalid" class="error">
+            <div *ngIf="exp.get('duration')?.hasError('required')">Duration is required.</div>
+          </div>
+
+          <button type="button" (click)="removeWorkExperience(i)">Remove</button>
+        </div>
+      </div>
+      <button type="button" (click)="addWorkExperience()">+ Add Work Experience</button>
+    </fieldset>
+
+    <!-- Education Section -->
+    <fieldset>
+      <legend>Education</legend>
+      <div formArrayName="education">
+        <div *ngFor="let edu of education.controls; let i = index" [formGroupName]="i">
+          <label>School:</label>
+          <input type="text" formControlName="school" required />
+          <div *ngIf="isSubmitted && edu.get('school')?.invalid" class="error">
+            <div *ngIf="edu.get('school')?.hasError('required')">School name is required.</div>
+          </div>
+
+          <label>Degree:</label>
+          <input type="text" formControlName="degree" required />
+          <div *ngIf="isSubmitted && edu.get('degree')?.invalid" class="error">
+            <div *ngIf="edu.get('degree')?.hasError('required')">Degree is required.</div>
+          </div>
+
+          <label>Year:</label>
+          <input type="text" formControlName="year" required />
+          <div *ngIf="isSubmitted && edu.get('year')?.invalid" class="error">
+            <div *ngIf="edu.get('year')?.hasError('required')">Year is required.</div>
+          </div>
+
+          <button type="button" (click)="removeEducation(i)">Remove</button>
+        </div>
+      </div>
+      <button type="button" (click)="addEducation()">+ Add Education</button>
+    </fieldset>
+
+    <!-- Submit Button -->
+    <button type="submit"> {{ cvId ? 'Update CV' : 'Save CV' }}</button>
+  </form>
+</div>

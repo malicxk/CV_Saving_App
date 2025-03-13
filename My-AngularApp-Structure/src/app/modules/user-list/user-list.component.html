@@ -1,0 +1,61 @@
+<table mat-table [dataSource]="users" class="mat-elevation-z8">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="dateAdded">
+    <th mat-header-cell *matHeaderCellDef>Date Added</th>
+    <td mat-cell *matCellDef="let user">{{ user.dateAdded | date: 'short' }}</td> <!-- Display as a readable date -->
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let user">
+      <button (click)="openEditModal(user)" mat-button color="primary">Edit</button>
+      <button (click)="deleteUser(user.id)" mat-button color="warn">Delete</button>
+      <button (click)="generateCv(user.id)" mat-button color="accent">Generate CV</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" showFirstLastButtons
+  (page)="onPaginateChange($event)">
+</mat-paginator>
+
+
+<!-- Edit User Modal -->
+<div *ngIf="isModalOpen" class="modal-overlay">
+  <div class="modal">
+    <h2>Edit User</h2>
+    <form [formGroup]="editForm">
+      <label>Name:</label>
+      <input type="text" formControlName="name">
+
+      <label>Email:</label>
+      <input type="email" formControlName="email">
+
+      <label>Phone:</label>
+      <input type="text" formControlName="phone">
+
+      <label>Professional Summary:</label>
+      <textarea formControlName="professionalSummary"></textarea>
+
+      <label>Skills:</label>
+      <input type="text" formControlName="skills">
+
+      <div class="modal-actions">
+        <button type="button" (click)="closeModal()">Cancel</button>
+        <button type="button" (click)="updateUser()">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
